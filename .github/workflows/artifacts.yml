@@ -1,0 +1,38 @@
+name: Artifacts Practice
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear la "app"
+        run: |
+          mkdir output
+          echo "Esta es mi app, version 1.0" > output/app.txt
+          echo "Creada por $GITHUB_ACTOR" >> output/app.txt
+
+      - name: Subir artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: mi-app
+          path: output/app.txt
+          retention-days: 5
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Intentar leer SIN descargar
+        run: ls output || echo "No existe la carpeta, esta computadora es nueva"
+
+      - name: Descargar artefacto
+        uses: actions/download-artifact@v4
+        with:
+          name: mi-app
+
+      - name: Leer el archivo
+        run: cat app.txt
+        
