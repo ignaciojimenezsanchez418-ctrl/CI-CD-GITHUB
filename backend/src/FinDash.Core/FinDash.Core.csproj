@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Lógica de negocio sin dependencias de web ni de MAUI (D8). -->
+</Project>
